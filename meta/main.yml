@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  role_name: letsencrypt-ovh
+  author: Pierre Coimbra
+  description: Ansible role for generating letsencrypt certificates by using DNS with OVH API
+  license: GPLv3
+  min_ansible_version: 2.1
+  platforms:
+  - name: Debian
+    versions:
+    - buster
+  galaxy_tags:
+    - letsencrypt
+    - web
+dependencies: []

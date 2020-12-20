@@ -1,0 +1,40 @@
+- name: generate | copy dns credenteals
+  template:
+    src: "files/ovh-credentials.ini"
+    dest: "/var/.secrets/certbot/credentials.ini"
+    owner: root
+    group: root
+    mode: '0600'
+  tags: generate
+
+- name: generate | generate new certificate
+  command: >-
+    certbot certonly --noninteractive --agree-tos -m {{ email }} -d {{ domains_list | join(' -d ') }}
+    --dns-ovh --dns-ovh-propagation-seconds 60
+    --dns-ovh-credentials /var/.secrets/certbot/credentials.ini
+    --server https://acme-v02.api.letsencrypt.org/directory
+  tags: generate
+
+- name: generate | deploy new certificate
+  shell: "{{ certbot_cmd_deploy_cert }}"
+  tags: generate
+
+- name: generate | renewal script
+  template:
+    src: certbot-renew.sh.j2
+    dest: /opt/certbot-renew.sh
+    owner: root
+    group: root
+    mode: 0740
+  tags: generate
+
+- name: generate | cronjob for cert renewal
+  cron:
+    name: letsencrypt_renewal
+    minute: "0"
+    hour: "0"
+    day: "*"
+    month: "*"
+    weekday: "0"
+    user: root
+    job: /opt/certbot-renew.sh

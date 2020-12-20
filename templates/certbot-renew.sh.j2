@@ -1,0 +1,4 @@
+#!/bin/bash
+/usr/bin/certbot renew
+{{ certbot_cmd_deploy_cert }}
+/bin/systemctl reload {{ certbot_stop_services | join(' ') }}

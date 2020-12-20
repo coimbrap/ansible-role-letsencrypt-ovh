@@ -1,0 +1,8 @@
+email: "example@ovh.ovh"
+domains_list: []
+certbot_stop_services: haproxy
+certbot_cmd_deploy_cert: ""
+dns_endpoint: ""
+dns_application_key: ""
+dns_application_secret: ""
+dns_consumer_key: ""
